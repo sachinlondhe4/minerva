@@ -1,0 +1,21 @@
+= label :nurse, :name, 'Name'
+= text_field :nurse, :name
+%br
+= label :nurse, :unit, 'Unit'
+= select :nurse, :unit, @units, :selected => @unit
+
+= label :nurse, :shift, 'Shift'
+= select :nurse, :shift, @shifts, :selected => @shift
+%br
+= label :nurse, :years_worked, 'Years Worked'
+= text_field :nurse, :years_worked
+%br
+= label :nurse, :num_weeks_off, 'Number of Weeks Off'
+= text_field :nurse, :num_weeks_off
+%br
+= label :nurse, :email, 'Email'
+= text_field :nurse, :email
+%br 
+= label :nurse, :rank, 'Rank'
+= text_field_tag 'nurse[rank]', @rank
+%br

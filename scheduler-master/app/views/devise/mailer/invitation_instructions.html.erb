@@ -1,0 +1,11 @@
+<p>Hello <%= @resource.name %>!</p>
+
+<% if @resource.personable_type == 'Nurse' %>
+<p>ur administrator has set up an accunt 4 u at <%= root_url %>. u will be able to scehdule ur vacations. u can finish setting up ur account through the link below.</p>
+<% else %>
+<p> a current  administrator has set up an administrator account for you at <%= root_url %>. You can finish setitng up your account through the link below.</p>
+<% end %>
+
+<p><%= link_to 'Accept invitation', accept_invitation_url(@resource, :invitation_token => @resource.invitation_token) %></p>
+
+

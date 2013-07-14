@@ -1,0 +1,42 @@
+%h1 Manage Nurses
+
+= form_tag nurse_manager_index_path, :method => :get, :multipart => true do
+
+  %p#instruction1= 'Please select your Unit and Shift, then click "Show"'
+  = label :admin, :unit, 'Unit'
+  = select :admin, :unit, @units, :selected => @unit
+  
+  = label :admin, :shift, 'Shift'
+  = select :admin, :shift, @shifts, :selected => @shift
+
+  = submit_tag 'Show'
+
+- if @readyToUpload
+  = render :partial => 'nurses_table'
+  %h2 Upload Nurses
+  %h3 Bulk Upload
+  %p#instruction2
+    = "Please upload a .xls or .xlsx file where the columns are labeled #{Nurse.required_columns.join(', ')} and optionally #{Nurse.optional_columns.join(', ')}. Then click 'Upload'."
+    = link_to "Click here to download a sample spreadsheet that can be filled out", "/sample_spreadsheet.xls"
+    
+  %p#warning= 'Note that if you upload a file, it will delete the nurses/vacations in the unit and shift selected'
+  = form_tag upload_nurse_manager_index_path, :multipart => true do
+    = label :admin, :select_file, 'Select file'
+    = file_field :admin, :upload
+    = hidden_field_tag "admin[shift]", @shift
+    = hidden_field_tag "admin[unit]", @unit
+    = submit_tag 'Upload'#, :confirm => 'Are you sure?'
+  %h3
+  = link_to 'Add A Single Nurse', new_nurse_manager_path(:admin => { :unit => @unit, :shift => @shift })
+  
+  %h1 Finalize Nurses
+  %p#instructions
+    If you are happy nurses list and are ready to begin scheduling vacations for the 
+    list, please click the Finalize Nurses button. This will send out the initial emails to all 
+    nurses and begin the scheduling process. You will still be able to edit nurses individually.
+  = form_tag finalize_nurse_manager_index_path, :multipart => true do
+    = hidden_field_tag "admin[shift]", @shift
+    = hidden_field_tag "admin[unit]", @unit
+    = submit_tag 'Finalize Nurses'
+    
+    

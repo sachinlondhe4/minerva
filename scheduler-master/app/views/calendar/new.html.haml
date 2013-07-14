@@ -1,0 +1,27 @@
+:javascript
+  $(function() {
+    var dates = $( "#event_start_at, #event_end_at" ).datepicker({
+      minDate: "#{Time.now.strftime("%m/%d/%y")}",
+      dateFormat: "mm/dd/yy",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onSelect: function( selectedDate ) {
+        var option = this.id == "event_start_at" ? "minDate" : "maxDate",
+        instance = $( this ).data( "datepicker" ),
+        date = $.datepicker.parseDate(
+          instance.settings.dateFormat ||
+          $.datepicker._defaults.dateFormat,
+          selectedDate, instance.settings );
+        dates.not( this ).datepicker( "option", option, date );
+      }
+    });
+  });
+
+%h1 
+  Choose
+
+= form_tag nurse_calendar_index_path(:nurse_id=>@nurse_id) do
+  = render :partial => 'event_form'
+  = submit_tag 'Save Changes'
+
+= link_to 'Back to calendar', nurse_calendar_index_path
